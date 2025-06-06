@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Tag Extractor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 50%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button[name="action"][value="fetch"] {
+            background-color: #3498db;
+            color: white;
+        }
+
+        button[name="action"][value="fetch"]:hover {
+            background-color: #2980b9;
+        }
+
+        button[name="action"][value="clear"] {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        button[name="action"][value="clear"]:hover {
+            background-color: #c0392b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .section-title {
+            margin-top: 30px;
+            color: #34495e;
+            font-size: 20px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter a URL</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="url" placeholder="https://example.com" size="50">
+        <button type="submit" name="action" value="fetch">Fetch Tags</button>
+        <button type="submit" name="action" value="clear">Clear</button>
+    </form>
+
+    {% if error %}
+        <p style="color:red;">Error: {{ error }}</p>
+    {% endif %}
+
+    {% if title %}
+        <h3>Title Tag</h3>
+        <p>{{ title }}</p>
+
+        <h3>Anchor Tags (a)</h3>
+        <table border="1" cellpadding="5">
+            <tr><th>Text</th></tr>
+            {% for a in anchors %}
+                <tr><td>{{ a }}</td></tr>
+            {% empty %}
+                <tr><td>No anchor tags found.</td></tr>
+            {% endfor %}
+        </table>
+
+        <h3>Paragraph Tags (p)</h3>
+        <table border="1" cellpadding="5">
+            <tr><th>Text</th></tr>
+            {% for p in paragraphs %}
+                <tr><td>{{ p }}</td></tr>
+            {% empty %}
+                <tr><td>No paragraph tags found.</td></tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>

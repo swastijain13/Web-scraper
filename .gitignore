@@ -1,0 +1,7 @@
+#db
+db.sqlite
+
+#python
+venv
+__pycache__
+__init__.py
